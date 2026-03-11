@@ -42,11 +42,16 @@ class Block:
 
 def detect_fonts(doc: fitz.Document, scan_pages: int = 999) -> tuple[str, Optional[str]]:
     """
-    Scan the first `scan_pages` text-heavy pages to identify body_font and code_font.
-    The majority font (by span count) is the body font; any minority font is code.
-    Returns (body_font, code_font). code_font may be None if only one font is found.
+    Scan the first `scan_pages` pages to identify body_font and code_font.
+
+    body_font  = most common font by character count
+    code_font  = minority font that is NOT mostly bold (bold minority fonts are
+                 heading variants, not monospace code fonts)
+
+    Returns (body_font, code_font). code_font may be None.
     """
     font_counter: Counter = Counter()
+    font_bold_chars: Counter = Counter()  # bold character count per font
     pages_to_scan = min(scan_pages, len(doc))
 
     for page_num in range(pages_to_scan):
@@ -58,16 +63,31 @@ def detect_fonts(doc: fitz.Document, scan_pages: int = 999) -> tuple[str, Option
                 for span in line["spans"]:
                     font = span.get("font", "")
                     text = span.get("text", "").strip()
+                    flags = span.get("flags", 0)
                     if font and text:
                         font_counter[font] += len(text)
+                        if flags & 16:  # bold flag
+                            font_bold_chars[font] += len(text)
 
     if not font_counter:
         return ("", None)
 
-    # Body font has the most characters; code font is anything else
     sorted_fonts = font_counter.most_common()
     body_font = sorted_fonts[0][0]
-    code_font = sorted_fonts[1][0] if len(sorted_fonts) > 1 else None
+    body_count = sorted_fonts[0][1]
+
+    # Find the first minority font that is not mostly bold.
+    # Mostly-bold minority fonts are heading/title variants, not code.
+    code_font = None
+    for font, count in sorted_fonts[1:]:
+        if count >= body_count * 0.10:
+            continue  # too common — likely an alternate body/heading font
+        bold_ratio = font_bold_chars.get(font, 0) / count
+        if bold_ratio > 0.5:
+            continue  # mostly bold → heading font, not code
+        code_font = font
+        break
+
     return (body_font, code_font)
 
 
