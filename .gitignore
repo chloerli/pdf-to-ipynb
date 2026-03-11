@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.egg
+dist/
+build/
+
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Jupyter outputs
+*.ipynb
+
+# IDE / OS
+.DS_Store
+.vscode/
+.idea/
+
+# Project internals
+.claude/
+PLAN.md
+
+# Sample / test files
+*.pdf
+out*/
+*_images/

@@ -1,0 +1,17 @@
+[project]
+name = "pdf-to-ipynb"
+version = "0.1.0"
+requires-python = ">=3.10"
+dependencies = [
+    "pymupdf",
+    "pillow",
+    "nbformat",
+    "pytesseract",
+]
+
+[project.scripts]
+pdf-to-ipynb = "pdf_to_ipynb.cli:main"
+
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
