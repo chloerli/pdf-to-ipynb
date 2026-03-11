@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import base64
 import os
+import re
 
 import nbformat
 
@@ -28,6 +29,17 @@ _HEADING_PREFIX = {
     BlockType.HEADING2: "## ",
     BlockType.HEADING3: "### ",
 }
+
+# Unicode bullets that should become markdown list items
+_BULLET_RE = re.compile(r"^(\s*)[•·▪▸►‣⁃]\s*", re.MULTILINE)
+
+
+def _format_body(text: str) -> str:
+    """Prepare body text for markdown: convert bullets, add hard line breaks."""
+    # Convert unicode bullets to markdown list items
+    text = _BULLET_RE.sub(r"\1- ", text)
+    # Add two trailing spaces before each newline so markdown renders line breaks
+    return text.replace("\n", "  \n")
 
 
 def build_notebook(
@@ -84,7 +96,7 @@ def build_notebook(
 
         else:
             # BODY text accumulates
-            md_buffer.append(block.text)
+            md_buffer.append(_format_body(block.text))
 
     flush_md()
     nb.cells = cells
