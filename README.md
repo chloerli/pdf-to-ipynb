@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="logo.png" alt="pdf-to-ipynb" width="560">
-</p>
-
 # pdf-to-ipynb
 
 Turn any PDF into a Jupyter notebook with one command.
