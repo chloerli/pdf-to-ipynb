@@ -7,6 +7,12 @@ Turn any PDF into a Jupyter notebook with one command.
 - Diagrams → embedded images
 - Code snippets → runnable code cells (OCR handles code that's baked into images)
 
+## Preview
+
+PDF on the left, generated notebook on the right:
+
+![demo](demo.png)
+
 ---
 
 ## Before you start
