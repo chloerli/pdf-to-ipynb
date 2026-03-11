@@ -41,7 +41,7 @@ sudo apt install tesseract-ocr
 ## Install
 
 ```bash
-git clone https://github.com/<you>/pdf-to-ipynb
+git clone https://github.com/chloerli/pdf-to-ipynb
 cd pdf-to-ipynb
 python3 -m venv .venv
 source .venv/bin/activate        # Windows: .venv\Scripts\activate
