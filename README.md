@@ -2,29 +2,15 @@
 
 Turn any PDF into a Jupyter notebook with one command.
 
-- Bold headings → `#` / `##` / `###` cells
-- Body text → markdown cells
-- Diagrams → embedded images
-- Code snippets → runnable code cells (OCR handles code that's baked into images)
-
-## Preview
-
-PDF on the left, generated notebook on the right:
-
-![demo](demo.png)
+Headings, body text, diagrams, and code snippets are all preserved — automatically structured into the right notebook cells. Code that's baked into screenshots is extracted via OCR.
 
 ---
 
 ## Before you start
 
-You need two things installed:
+**Python 3.10+** — check with `python3 --version`
 
-**1. Python 3.10 or newer** — check with:
-```bash
-python3 --version
-```
-
-**2. Tesseract** (reads text from images):
+**Tesseract** (reads text from images):
 ```bash
 # macOS
 brew install tesseract
@@ -38,7 +24,7 @@ sudo apt install tesseract-ocr
 
 ---
 
-## Install
+## Quick start
 
 ```bash
 git clone https://github.com/chloerli/pdf-to-ipynb
@@ -48,24 +34,44 @@ source .venv/bin/activate        # Windows: .venv\Scripts\activate
 pip install -e .
 ```
 
----
-
-## Run
-
 ```bash
 pdf-to-ipynb document.pdf
 ```
 
 The output file (`document.ipynb`) is saved in the **same folder as the PDF**.
 
+---
+
+## Preview
+
+PDF on the left, generated notebook on the right:
+
+![demo](demo.png)
+
+---
+
+## Use cases
+
+**Study from a textbook**
+Convert a coding or system design book into a notebook so you can run examples, add your own notes, and annotate diagrams right next to the text.
+
+**Build a personal reference**
+Turn dense technical PDFs (API docs, whitepapers, research papers) into searchable, executable notebooks you can revisit and extend.
+
+**Interview prep**
+Convert system design or algorithms books into notebooks and add your own code experiments below each concept as you study.
+
+**Share annotated reading notes**
+Convert a PDF, add your commentary in new cells, and share the notebook with teammates or study groups.
+
+---
+
+## Options
+
 To pick a different output location:
 ```bash
 pdf-to-ipynb document.pdf -o ~/Desktop/notebook.ipynb
 ```
-
----
-
-## All options
 
 | Flag | What it does |
 |---|---|
